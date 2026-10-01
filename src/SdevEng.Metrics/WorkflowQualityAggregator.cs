@@ -10,7 +10,20 @@ public sealed record WorkflowQualityAggregate(
     int AdvisoryWorkflowRerunCount,
     int FinalWorkflowRerunCount,
     int LocalCiComparisonCount,
-    int LocalCiDisagreementCount);
+    int LocalCiDisagreementCount,
+    IReadOnlyList<WorkflowCiLatencySample> AdvisoryWorkUnitCiLatency,
+    IReadOnlyList<WorkflowCiLatencySample> FinalPrRequiredCheckLatency);
+
+// Durations are elapsed wall-clock milliseconds. Samples are ordered by repository,
+// then their binding identity, then attempt ordinal.
+public sealed record WorkflowCiLatencySample(
+    string Repository,
+    string CommitSha,
+    long DurationMilliseconds,
+    int AttemptOrdinal,
+    string? StageId = null,
+    string? WorkUnitId = null,
+    string? PullRequestId = null);
 
 public sealed record WorkflowQualityDimensionCount(string Repository, string? StageId, int FirstPassSuccessCount, int EligibleWorkUnitCount, int RepairCommitCount);
 
@@ -72,6 +85,29 @@ public static class WorkflowQualityAggregator
             }).ToArray();
         var reruns = hosted.Where(item => item.AttemptOrdinal > 1).ToArray();
         var comparisons = observations.Where(item => item.Kind == WorkflowObservationKind.VerificationComparison).ToArray();
+        var advisoryLatency = hosted.Where(item => item.Kind == WorkflowObservationKind.HostedWorkflow)
+            .Select(item => new WorkflowCiLatencySample(item.Repository, item.CommitSha,
+                item.DurationMilliseconds!.Value, item.AttemptOrdinal!.Value, item.StageId, item.WorkUnitId))
+            .OrderBy(item => item.Repository, StringComparer.Ordinal)
+            .ThenBy(item => item.StageId, StringComparer.Ordinal)
+            .ThenBy(item => item.WorkUnitId, StringComparer.Ordinal)
+            .ThenBy(item => item.CommitSha, StringComparer.OrdinalIgnoreCase)
+            .ThenBy(item => item.AttemptOrdinal).ToArray();
+        var finalLatency = hosted.Where(item => item.Kind == WorkflowObservationKind.FinalPrRequiredChecks)
+            .GroupBy(item => (item.Repository, item.PullRequestId, item.CommitSha, item.AttemptOrdinal))
+            .Select(group =>
+            {
+                var start = group.Min(item => DateTimeOffset.Parse(item.StartedAt!, System.Globalization.CultureInfo.InvariantCulture));
+                var completion = group.Max(item => DateTimeOffset.Parse(item.CompletedAt!, System.Globalization.CultureInfo.InvariantCulture));
+                var first = group.First();
+                return new WorkflowCiLatencySample(first.Repository, first.CommitSha,
+                    (long)(completion - start).TotalMilliseconds, first.AttemptOrdinal!.Value,
+                    PullRequestId: first.PullRequestId);
+            })
+            .OrderBy(item => item.Repository, StringComparer.Ordinal)
+            .ThenBy(item => item.PullRequestId, StringComparer.Ordinal)
+            .ThenBy(item => item.CommitSha, StringComparer.OrdinalIgnoreCase)
+            .ThenBy(item => item.AttemptOrdinal).ToArray();
 
         return new WorkflowQualityAggregate(byWorkUnit.Sum(item => item.FirstPassSuccessCount), byWorkUnit.Length,
             byWorkUnit.Sum(item => item.RepairCommitCount), byRepositoryStage, byWorkUnit
@@ -81,7 +117,8 @@ public static class WorkflowQualityAggregator
             reruns.Count(item => item.CiClass == WorkflowCiClass.Advisory),
             reruns.Count(item => item.CiClass == WorkflowCiClass.Final),
             comparisons.Length,
-            comparisons.Count(item => item.LocalResult != item.HostedResult));
+            comparisons.Count(item => item.LocalResult != item.HostedResult),
+            advisoryLatency, finalLatency);
     }
 
     private sealed class WorkUnitKeyComparer : IEqualityComparer<(string Repository, string StageId, string WorkUnitId)>
