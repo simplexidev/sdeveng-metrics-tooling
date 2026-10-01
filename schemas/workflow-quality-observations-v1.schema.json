@@ -50,7 +50,7 @@
       "allOf": [
         { "if": { "properties": { "kind": { "const": "workUnitValidation" } }, "required": ["kind"] }, "then": { "required": ["stageId", "workUnitId", "attemptOrdinal", "result"] } },
         { "if": { "properties": { "kind": { "const": "repairCommit" } }, "required": ["kind"] }, "then": { "required": ["stageId", "workUnitId", "repairCommitSha", "repairObservationId"] } },
-        { "if": { "properties": { "kind": { "const": "hostedWorkflow" } }, "required": ["kind"] }, "then": { "required": ["provider", "providerRunId", "attemptOrdinal", "ciClass", "result", "startedAt", "completedAt", "durationMilliseconds"] } },
+        { "if": { "properties": { "kind": { "const": "hostedWorkflow" } }, "required": ["kind"] }, "then": { "required": ["provider", "providerRunId", "attemptOrdinal", "ciClass", "result", "startedAt", "completedAt", "durationMilliseconds", "stageId", "workUnitId"], "properties": { "ciClass": { "const": "advisory" } } } },
         { "if": { "properties": { "kind": { "const": "verificationComparison" } }, "required": ["kind"] }, "then": { "required": ["localResult", "hostedResult"] } },
         { "if": { "properties": { "kind": { "const": "finalPrRequiredChecks" } }, "required": ["kind"] }, "then": { "required": ["pullRequestId", "provider", "providerRunId", "attemptOrdinal", "result", "startedAt", "completedAt", "durationMilliseconds"], "properties": { "ciClass": { "const": "final" } } } }
       ]

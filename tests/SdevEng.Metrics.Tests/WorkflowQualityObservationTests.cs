@@ -13,6 +13,10 @@ public sealed class WorkflowQualityObservationTests
         Assert.Equal(Enum.GetValues<WorkflowObservationKind>().ToHashSet(), parsed.Observations.Select(x => x.Kind).ToHashSet());
         Assert.Equal(1, parsed.Observations.Single(x => x.Kind == WorkflowObservationKind.WorkUnitValidation).AttemptOrdinal);
         Assert.Equal(2, parsed.Observations.Single(x => x.Kind == WorkflowObservationKind.FinalPrRequiredChecks).AttemptOrdinal);
+        var advisory = parsed.Observations.Single(x => x.Kind == WorkflowObservationKind.HostedWorkflow);
+        Assert.Equal(("3.5", "unit-1"), (advisory.StageId, advisory.WorkUnitId));
+        var finalChecks = parsed.Observations.Single(x => x.Kind == WorkflowObservationKind.FinalPrRequiredChecks);
+        Assert.Equal(("42", "github-actions", "run-101"), (finalChecks.PullRequestId, finalChecks.Provider, finalChecks.ProviderRunId));
         Assert.Contains(parsed.Observations, x => x.Kind == WorkflowObservationKind.VerificationComparison && x.LocalResult == x.HostedResult);
         Assert.Contains(parsed.Observations, x => x.Kind == WorkflowObservationKind.VerificationComparison && x.LocalResult != x.HostedResult);
     }
@@ -42,6 +46,14 @@ public sealed class WorkflowQualityObservationTests
         var json = File.ReadAllText(Fixture("workflow-quality-valid-v1.json"));
         var ambiguous = json.Replace("\"workUnitId\": \"unit-1\", \"attemptOrdinal\": 1", "\"workUnitId\": \"unit-1\", \"attemptOrdinal\": 1, \"ciClass\": \"final\"");
         Assert.Throws<JsonException>(() => WorkflowQualityObservationParser.Parse(ambiguous));
+    }
+
+    [Fact]
+    public void RejectsAdvisoryWorkflowWithoutWorkUnitBinding()
+    {
+        var json = File.ReadAllText(Fixture("workflow-quality-valid-v1.json"))
+            .Replace(", \"stageId\": \"3.5\", \"workUnitId\": \"unit-1\"", string.Empty, StringComparison.Ordinal);
+        Assert.Throws<JsonException>(() => WorkflowQualityObservationParser.Parse(json));
     }
 
     private static string Fixture(string name) => Path.Combine(AppContext.BaseDirectory, "Fixtures", name);
