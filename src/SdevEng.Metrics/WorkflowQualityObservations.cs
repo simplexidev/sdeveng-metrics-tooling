@@ -79,7 +79,9 @@ public static class WorkflowQualityObservationParser
                 case WorkflowObservationKind.HostedWorkflow:
                     Required(item.Provider, "provider"); Required(item.ProviderRunId, "providerRunId"); Ordinal(item.AttemptOrdinal);
                     Required(item.CiClass, "ciClass"); Required(item.Result, "result"); Timing(item);
-                    Only(item, item.Provider, item.ProviderRunId, item.AttemptOrdinal, item.CiClass, item.Result, item.StartedAt, item.CompletedAt, item.DurationMilliseconds); break;
+                    if (item.CiClass != WorkflowCiClass.Advisory) throw new JsonException("hostedWorkflow must have ciClass 'advisory'.");
+                    WorkUnit(item);
+                    Only(item, item.StageId, item.WorkUnitId, item.Provider, item.ProviderRunId, item.AttemptOrdinal, item.CiClass, item.Result, item.StartedAt, item.CompletedAt, item.DurationMilliseconds); break;
                 case WorkflowObservationKind.VerificationComparison:
                     Required(item.LocalResult, "localResult"); Required(item.HostedResult, "hostedResult");
                     Only(item, item.LocalResult, item.HostedResult); break;
