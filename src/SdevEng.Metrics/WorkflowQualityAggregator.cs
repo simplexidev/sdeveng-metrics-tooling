@@ -5,7 +5,12 @@ public sealed record WorkflowQualityAggregate(
     int EligibleWorkUnitCount,
     int RepairCommitCount,
     IReadOnlyList<WorkflowQualityDimensionCount> ByRepositoryStage,
-    IReadOnlyList<WorkflowQualityWorkUnitCount> ByWorkUnit);
+    IReadOnlyList<WorkflowQualityWorkUnitCount> ByWorkUnit,
+    int WorkflowRerunCount,
+    int AdvisoryWorkflowRerunCount,
+    int FinalWorkflowRerunCount,
+    int LocalCiComparisonCount,
+    int LocalCiDisagreementCount);
 
 public sealed record WorkflowQualityDimensionCount(string Repository, string? StageId, int FirstPassSuccessCount, int EligibleWorkUnitCount, int RepairCommitCount);
 
@@ -56,10 +61,27 @@ public static class WorkflowQualityAggregator
                 units.Sum(unit => unit.FirstPassSuccessCount), units.Length, repairCount);
         }).OrderBy(item => item.Repository, StringComparer.Ordinal).ThenBy(item => item.StageId, StringComparer.Ordinal).ToArray();
 
+        var hosted = observations.Where(item => item.Kind is WorkflowObservationKind.HostedWorkflow or WorkflowObservationKind.FinalPrRequiredChecks)
+            .GroupBy(item => (item.Provider!, item.ProviderRunId!, item.AttemptOrdinal!.Value, item.CiClass!.Value))
+            .Select(group =>
+            {
+                var first = group.First();
+                if (group.Any(item => item != first))
+                    throw new InvalidOperationException($"Conflicting hosted workflow observations share provider identity '{first.Provider}/{first.ProviderRunId}' attempt {first.AttemptOrdinal}.");
+                return first;
+            }).ToArray();
+        var reruns = hosted.Where(item => item.AttemptOrdinal > 1).ToArray();
+        var comparisons = observations.Where(item => item.Kind == WorkflowObservationKind.VerificationComparison).ToArray();
+
         return new WorkflowQualityAggregate(byWorkUnit.Sum(item => item.FirstPassSuccessCount), byWorkUnit.Length,
             byWorkUnit.Sum(item => item.RepairCommitCount), byRepositoryStage, byWorkUnit
                 .OrderBy(item => item.Repository, StringComparer.Ordinal).ThenBy(item => item.StageId, StringComparer.Ordinal)
-                .ThenBy(item => item.WorkUnitId, StringComparer.Ordinal).ToArray());
+                .ThenBy(item => item.WorkUnitId, StringComparer.Ordinal).ToArray(),
+            reruns.Length,
+            reruns.Count(item => item.CiClass == WorkflowCiClass.Advisory),
+            reruns.Count(item => item.CiClass == WorkflowCiClass.Final),
+            comparisons.Length,
+            comparisons.Count(item => item.LocalResult != item.HostedResult));
     }
 
     private sealed class WorkUnitKeyComparer : IEqualityComparer<(string Repository, string StageId, string WorkUnitId)>
