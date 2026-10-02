@@ -143,6 +143,26 @@ ambiguous routing. Expected/observed sets calculate false and missed activation 
 delegation; structured observations also measure invoked tools, maximum delegation depth
 and context isolation. Ambiguous cases are observed but left unscored.
 
+## Workflow quality
+
+Download or copy the toolkit's exact-commit `commit-ci-evidence-*` artifacts into an
+ignored private directory. `aggregate-workflow-quality` reads their `result.json`
+files directly. It also accepts private local validation and explicit repair records
+conforming to [`workflow-quality-observations-v2.schema.json`](schemas/workflow-quality-observations-v2.schema.json).
+Those records use commit identity and an optional real run identity; WorkUnit identity is left unset until the
+product creates WorkUnits. Missing local records produce zero eligible local scopes, not
+an inferred success rate. Missing CI timing produces no latency sample.
+
+```console
+dotnet run --project src/SdevEng.Metrics -- aggregate-workflow-quality \
+  data/private/workflow-evidence data/private/workflow-quality-summary.json
+```
+
+The output is a private aggregate without commit IDs or transcripts. Review and
+sanitize any public projection before adding it to `sdeveng-metrics-data`; this
+command does not publish data. The historical v1 schema remains readable for
+historical records, while new evidence uses v2.
+
 ## Develop
 
 ## Regression history and affected evaluation

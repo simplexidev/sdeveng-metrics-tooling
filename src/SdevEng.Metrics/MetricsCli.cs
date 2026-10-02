@@ -10,6 +10,23 @@ public static class MetricsCli
         TextWriter error,
         CancellationToken cancellationToken = default)
     {
+        if (args.Length == 3 && args[0] == "aggregate-workflow-quality")
+        {
+            try
+            {
+                var summary = WorkflowQualityV2.AggregateDirectory(args[1]);
+                var json = JsonSerializer.Serialize(summary, new JsonSerializerOptions(JsonSerializerDefaults.Web) { WriteIndented = true });
+                await WriteAsync(args[2], json + "\n", cancellationToken);
+                await output.WriteLineAsync($"Private workflow-quality aggregate written to: {Path.GetFullPath(args[2])}");
+                return 0;
+            }
+            catch (Exception exception) when (exception is IOException or InvalidOperationException or UnauthorizedAccessException or JsonException)
+            {
+                await error.WriteLineAsync($"Workflow-quality aggregation failed: {exception.Message}");
+                return 1;
+            }
+        }
+
         if (args.Length >= 2 && args[0] == "measure-static")
         {
             return await MeasureStaticAsync(args, output, error, cancellationToken);

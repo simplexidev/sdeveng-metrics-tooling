@@ -21,6 +21,11 @@ or release provenance. Migrations must be deterministic, idempotent, covered by 
 and must never invent a measured value. A value that cannot be migrated faithfully is
 represented with `kind: "unavailable"`, `value: null`, and a method explaining why.
 
+Workflow-quality v2 replaces the historical roadmap Stage and assumed WorkUnit
+identities with observed commit identities and optional real run identities. The v1 parser remains available
+for historical private records. V1 records cannot be automatically converted to v2
+when their Stage-scoped WorkUnit is not an actual product run; no run ID is invented.
+
 The v1 dashboard aggregate schema is independent from the evaluation-record family. It
 remains supported until a separately versioned public aggregation phase replaces it.
 The detailed keyless analyzer output conforms to `static-cost-report-v1.schema.json`;
