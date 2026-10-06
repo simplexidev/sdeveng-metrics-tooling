@@ -48,12 +48,20 @@ public sealed class WorkflowQualityV2Tests
             }));
             void Hosted(string file, int attempt, string tier, string status) => File.WriteAllText(Path.Combine(directory, file), JsonSerializer.Serialize(new
             {
-                schemaVersion = 2, repository = "simplexidev/sdeveng", commitSha = sha, validationTier = tier,
-                runner = "ubuntu-latest", providerRunId = "101", attemptOrdinal = attempt,
+                schemaVersion = 2,
+                repository = "simplexidev/sdeveng",
+                commitSha = sha,
+                validationTier = tier,
+                runner = "ubuntu-latest",
+                providerRunId = "101",
+                attemptOrdinal = attempt,
                 pullRequestId = tier == "final-pr" ? "42" : null,
-                startedAt = "2026-09-30T10:00:00Z", completedAt = "2026-09-30T10:00:05Z", durationMilliseconds = 5000,
+                startedAt = "2026-09-30T10:00:00Z",
+                completedAt = "2026-09-30T10:00:05Z",
+                durationMilliseconds = 5000,
                 checks = new[] { new { schemaVersion = 2, source = "hosted", check = "tests", status,
-                    exitCode = status == "passed" ? 0 : 1, artifact = "github-actions:101/tests", environmentIdentity = "github:ubuntu-latest:101" } }, notObserved = Array.Empty<string>()
+                    exitCode = status == "passed" ? 0 : 1, artifact = "github-actions:101/tests", environmentIdentity = "github:ubuntu-latest:101" } },
+                notObserved = Array.Empty<string>()
             }));
             Hosted("advisory-1.json", 1, "advisory-commit", "failed");
             Hosted("advisory-2.json", 2, "advisory-commit", "failed");
@@ -87,9 +95,15 @@ public sealed class WorkflowQualityV2Tests
         {
             File.WriteAllText(Path.Combine(directory, "result.json"), JsonSerializer.Serialize(new
             {
-                schemaVersion = 2, repository = "simplexidev/sdeveng", commitSha = new string('a', 40),
-                validationTier = "advisory-commit", providerRunId = "101", attemptOrdinal = 1,
-                startedAt = "2026-09-30T10:00:00Z", completedAt = "2026-09-30T10:00:05Z", durationMilliseconds = 9000,
+                schemaVersion = 2,
+                repository = "simplexidev/sdeveng",
+                commitSha = new string('a', 40),
+                validationTier = "advisory-commit",
+                providerRunId = "101",
+                attemptOrdinal = 1,
+                startedAt = "2026-09-30T10:00:00Z",
+                completedAt = "2026-09-30T10:00:05Z",
+                durationMilliseconds = 9000,
                 checks = Array.Empty<object>()
             }));
             Assert.Throws<InvalidDataException>(() => WorkflowQualityV2.AggregateDirectory(directory));
@@ -110,9 +124,15 @@ public sealed class WorkflowQualityV2Tests
             {
                 File.WriteAllText(Path.Combine(directory, runner + ".json"), JsonSerializer.Serialize(new
                 {
-                    schemaVersion = 2, repository = "simplexidev/sdeveng", commitSha = new string('a', 40),
-                    validationTier = "advisory-commit", runner, providerRunId = "101", attemptOrdinal = 2,
-                    startedAt = "2026-09-30T10:00:00Z", completedAt = $"2026-09-30T{end}Z",
+                    schemaVersion = 2,
+                    repository = "simplexidev/sdeveng",
+                    commitSha = new string('a', 40),
+                    validationTier = "advisory-commit",
+                    runner,
+                    providerRunId = "101",
+                    attemptOrdinal = 2,
+                    startedAt = "2026-09-30T10:00:00Z",
+                    completedAt = $"2026-09-30T{end}Z",
                     durationMilliseconds = end == "10:00:05" ? 5000 : 9000,
                     checks = new[] { new { schemaVersion = 2, source = "hosted", check = "tests", status = "passed", exitCode = 0, artifact = "github:101/tests", environmentIdentity = "github:" + runner + ":101" } },
                     notObserved = Array.Empty<string>()
