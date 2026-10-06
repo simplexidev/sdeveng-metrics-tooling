@@ -2,5 +2,176 @@
   "renderedInput": "<m>system|</m>\n<m>assistant|</m>\n<m>user|</m>\n<m>assistant|</m><assistant>",
   "utf8Bytes": 74,
   "tokens": 53,
-  "renderedInputDigest": "d9fb4216faa76c777bc4d5c7d58c77c435b44619fb4693d8d0a3a0acffaf2b76"
+  "renderedInputDigest": "d9fb4216faa76c777bc4d5c7d58c77c435b44619fb4693d8d0a3a0acffaf2b76",
+  "attribution": {
+    "schemaVersion": 1,
+    "algorithm": "ordered-cumulative-prefix/v1",
+    "renderedLength": 74,
+    "emptyTokens": 0,
+    "totalTokens": 53,
+    "attributedTokens": 53,
+    "reconciled": true,
+    "components": [
+      {
+        "span": {
+          "componentId": "chat-template-overhead",
+          "contentReference": "message-header",
+          "start": 0,
+          "length": 10
+        },
+        "prefixTokens": 10,
+        "tokens": 10
+      },
+      {
+        "span": {
+          "componentId": "system",
+          "contentReference": "system",
+          "start": 10,
+          "length": 0
+        },
+        "prefixTokens": 10,
+        "tokens": 0
+      },
+      {
+        "span": {
+          "componentId": "chat-template-overhead",
+          "contentReference": "message-footer",
+          "start": 10,
+          "length": 4
+        },
+        "prefixTokens": 14,
+        "tokens": 4
+      },
+      {
+        "span": {
+          "componentId": "chat-template-overhead",
+          "contentReference": "message-separator",
+          "start": 14,
+          "length": 1
+        },
+        "prefixTokens": 15,
+        "tokens": 1
+      },
+      {
+        "span": {
+          "componentId": "chat-template-overhead",
+          "contentReference": "message-header",
+          "start": 15,
+          "length": 13
+        },
+        "prefixTokens": 21,
+        "tokens": 6
+      },
+      {
+        "span": {
+          "componentId": "role",
+          "contentReference": "role",
+          "start": 28,
+          "length": 0
+        },
+        "prefixTokens": 21,
+        "tokens": 0
+      },
+      {
+        "span": {
+          "componentId": "chat-template-overhead",
+          "contentReference": "message-footer",
+          "start": 28,
+          "length": 4
+        },
+        "prefixTokens": 25,
+        "tokens": 4
+      },
+      {
+        "span": {
+          "componentId": "chat-template-overhead",
+          "contentReference": "message-separator",
+          "start": 32,
+          "length": 1
+        },
+        "prefixTokens": 26,
+        "tokens": 1
+      },
+      {
+        "span": {
+          "componentId": "chat-template-overhead",
+          "contentReference": "message-header",
+          "start": 33,
+          "length": 8
+        },
+        "prefixTokens": 27,
+        "tokens": 1
+      },
+      {
+        "span": {
+          "componentId": "request",
+          "contentReference": "request",
+          "start": 41,
+          "length": 0
+        },
+        "prefixTokens": 27,
+        "tokens": 0
+      },
+      {
+        "span": {
+          "componentId": "chat-template-overhead",
+          "contentReference": "message-footer",
+          "start": 41,
+          "length": 4
+        },
+        "prefixTokens": 31,
+        "tokens": 4
+      },
+      {
+        "span": {
+          "componentId": "chat-template-overhead",
+          "contentReference": "message-separator",
+          "start": 45,
+          "length": 1
+        },
+        "prefixTokens": 32,
+        "tokens": 1
+      },
+      {
+        "span": {
+          "componentId": "chat-template-overhead",
+          "contentReference": "message-header",
+          "start": 46,
+          "length": 13
+        },
+        "prefixTokens": 38,
+        "tokens": 6
+      },
+      {
+        "span": {
+          "componentId": "output-contract",
+          "contentReference": "output",
+          "start": 59,
+          "length": 0
+        },
+        "prefixTokens": 38,
+        "tokens": 0
+      },
+      {
+        "span": {
+          "componentId": "chat-template-overhead",
+          "contentReference": "message-footer",
+          "start": 59,
+          "length": 4
+        },
+        "prefixTokens": 42,
+        "tokens": 4
+      },
+      {
+        "span": {
+          "componentId": "chat-template-overhead",
+          "contentReference": "generation-prefix",
+          "start": 63,
+          "length": 11
+        },
+        "prefixTokens": 53,
+        "tokens": 11
+      }
+    ]
+  }
 }
