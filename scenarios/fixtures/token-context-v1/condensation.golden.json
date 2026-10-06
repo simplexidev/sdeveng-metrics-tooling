@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 2,
+  "kind": "request-variant-token-measurement",
+  "measurementKind": "exact",
+  "method": "fixture-byte-v1",
+  "tokenizerId": "public-byte-fixture",
+  "tokenizerRevision": "byte-v1",
+  "tokenizerAssets": [
+    {
+      "path": "vocab.bin",
+      "sha256": "40aff2e9d2d8922e47afd4648e6967497158785fbd1da870e7110266bf944880"
+    }
+  ],
+  "fixtureOnly": true,
+  "original": {
+    "textDigest": "acc83e5424dfab61120c01197cc8731ab909f820d0303b8159abb35ede1f7f30",
+    "utf8Bytes": 23,
+    "tokens": 23
+  },
+  "normalized": {
+    "textDigest": "91ca1a22f3533bfeb8e891d6d386cd50d434cf011925db65156cec20fbac3e21",
+    "utf8Bytes": 28,
+    "tokens": 28
+  },
+  "condensed": {
+    "textDigest": "0626ac158236c3276f4489538c24c8602e1546008bbd257efc767f91c91da841",
+    "utf8Bytes": 20,
+    "tokens": 20
+  },
+  "requestTokensSaved": 3,
+  "compressionRatio": 0.8695652173913043478260869565,
+  "compressionRatioUnavailableReason": null,
+  "retainedFactMappings": {
+    "bug": "bug",
+    "component": "parser"
+  }
+}
