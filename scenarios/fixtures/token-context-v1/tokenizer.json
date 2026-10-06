@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "public-byte-fixture",
+  "modelFamily": "synthetic",
+  "family": "fixture",
+  "revision": "byte-v1",
+  "assets": [
+    {
+      "path": "vocab.bin",
+      "sha256": "40aff2e9d2d8922e47afd4648e6967497158785fbd1da870e7110266bf944880"
+    }
+  ],
+  "encoding": "fixture",
+  "specialTokens": [
+    "</m>\n<m>"
+  ],
+  "adapter": "fixture-v1",
+  "fixtureOnly": true
+}

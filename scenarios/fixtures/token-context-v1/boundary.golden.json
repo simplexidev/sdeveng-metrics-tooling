@@ -1,0 +1,6 @@
+{
+  "renderedInput": "<m>system|a</m>\n<m>assistant|b</m>\n<m>user|c</m>\n<m>assistant|d</m><assistant>",
+  "utf8Bytes": 78,
+  "tokens": 57,
+  "renderedInputDigest": "e06643b4642d22a7785afecd2fa5f55159a8053a5fb63d7b6071aa7d06d93b2e"
+}

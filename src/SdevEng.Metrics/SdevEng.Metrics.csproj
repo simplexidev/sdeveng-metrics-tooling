@@ -1,5 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <SdevEngProducerRoot Condition="'$(SdevEngProducerRoot)' == ''">$(MSBuildThisFileDirectory)../../../sdeveng</SdevEngProducerRoot>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Build.Tasks.Core" />
+    <ProjectReference Include="$(SdevEngProducerRoot)/src/SdevEng.Infrastructure/SdevEng.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>

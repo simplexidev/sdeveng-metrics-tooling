@@ -198,3 +198,7 @@ dotnet run --project src/SdevEng.Metrics -- validate-plan scenarios/routing-dele
 The dashboard repository publishes the generated, sanitized artifact at
 <https://simplexidev.github.io/sdeveng-metrics-dashboard/>. Dashboard code uses only
 project-relative paths.
+
+Fixed public-safe token/context fixtures and the keyless golden evaluator are documented in
+[the fixture README](scenarios/fixtures/token-context-v1/README.md). Builds consume the
+sibling sdeveng producer by default; CI checks out the pinned producer revision.

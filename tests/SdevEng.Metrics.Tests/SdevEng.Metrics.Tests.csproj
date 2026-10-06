@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <SdevEngProducerRoot Condition="'$(SdevEngProducerRoot)' == ''">$(MSBuildThisFileDirectory)../../../sdeveng</SdevEngProducerRoot>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
@@ -16,6 +17,11 @@
     <ProjectReference Include="../../src/SdevEng.Metrics/SdevEng.Metrics.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="../../scenarios/fixtures/token-context-v1/*" Link="TokenFixtures/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(SdevEngProducerRoot)/schemas/rendered-input-token-measurement.schema.json" Link="Schemas/rendered-input-token-measurement.schema.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(SdevEngProducerRoot)/schemas/tokenizer-manifest.schema.json" Link="Schemas/tokenizer-manifest.schema.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(SdevEngProducerRoot)/schemas/chat-template-manifest.schema.json" Link="Schemas/chat-template-manifest.schema.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(SdevEngProducerRoot)/schemas/prompt-manifest.schema.json" Link="Schemas/prompt-manifest.schema.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Fixtures/**/*.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../../schemas/**/*.json" Link="Schemas/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

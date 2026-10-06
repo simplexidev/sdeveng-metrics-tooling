@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "components": [
+    {
+      "id": "system",
+      "role": "system",
+      "provenance": "public synthetic fixture v1",
+      "contentReference": "system",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "isLoaded": true
+    },
+    {
+      "id": "role",
+      "role": "assistant",
+      "provenance": "public synthetic fixture v1",
+      "contentReference": "role",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "isLoaded": true
+    },
+    {
+      "id": "request",
+      "role": "user",
+      "provenance": "public synthetic fixture v1",
+      "contentReference": "request",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "isLoaded": true
+    },
+    {
+      "id": "output-contract",
+      "role": "assistant",
+      "provenance": "public synthetic fixture v1",
+      "contentReference": "output",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "isLoaded": true,
+      "responseSchema": "synthetic-output-v1"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "public-chat-fixture",
+  "revision": "chat-v1",
+  "tokenizerId": "public-byte-fixture",
+  "tokenizerRevision": "byte-v1",
+  "family": "fixture",
+  "messageStart": "<m>",
+  "headerBodySeparator": "|",
+  "messageEnd": "</m>",
+  "messageSeparator": "\n",
+  "toolSectionStart": "<tools>",
+  "toolSectionEnd": "</tools>",
+  "generationPrefix": "<assistant>",
+  "fixtureOnly": true,
+  "checksum": "4571c266adb3a5d92e5b1c57899900f16a8506a468fdb774d4878951d6a7e534"
+}
