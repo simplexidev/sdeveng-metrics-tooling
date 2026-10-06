@@ -19,8 +19,15 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
+    env:
+      SdevEngProducerRoot: ${{ github.workspace }}/.producer/sdeveng
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: simplexidev/sdeveng
+          ref: 6f4b618bce27c76c994211910fe2767190508acb
+          path: .producer/sdeveng
       - uses: actions/setup-dotnet@v4
         with:
           global-json-file: global.json

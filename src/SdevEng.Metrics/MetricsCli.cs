@@ -10,6 +10,21 @@ public static class MetricsCli
         TextWriter error,
         CancellationToken cancellationToken = default)
     {
+        if (args.Length == 2 && args[0] == "evaluate-token-fixtures")
+        {
+            try
+            {
+                var results = TokenContextFixtureEvaluator.Evaluate(args[1], new TokenContextFixtureEvaluator.RejectInferenceExecutor());
+                await output.WriteLineAsync(JsonSerializer.Serialize(results, new JsonSerializerOptions(JsonSerializerDefaults.Web)));
+                return 0;
+            }
+            catch (Exception exception) when (exception is IOException or ArgumentException or InvalidOperationException or JsonException or KeyNotFoundException)
+            {
+                await error.WriteLineAsync($"Token fixture evaluation failed: {exception.Message}");
+                return 1;
+            }
+        }
+
         if (args.Length == 3 && args[0] == "aggregate-workflow-quality")
         {
             try
@@ -203,6 +218,7 @@ public static class MetricsCli
         await output.WriteLineAsync("  validate-public <aggregate.json>");
         await output.WriteLineAsync("  dashboard-check <dashboard-directory>");
         await output.WriteLineAsync("  publish-pages <dashboard-directory> <public-data-directory> <output-directory>");
+        await output.WriteLineAsync("  evaluate-token-fixtures <fixture-directory>");
         await output.WriteLineAsync("  measure-static <toolkit-directory> [--output <report.json>] [--public-output <aggregate.json>]");
         return args.Length == 0 || (args.Length == 1 && args[0] is "help" or "--help" or "-h") ? 0 : 2;
     }
