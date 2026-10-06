@@ -1,0 +1,11 @@
+{
+  "role": "coder",
+  "roleInputBudgetTokens": 12,
+  "renderedInputTokens": 9,
+  "selectedEvidenceIds": ["evidence:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "evidence:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"],
+  "candidates": [
+    { "evidenceId": "evidence:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "sourceRevision": "fixture-rev-1", "text": "src/Parser.cs: parse token", "fileLocationKey": "repo:src/Parser.cs", "symbolLocationKey": "symbol:Parser.Parse" },
+    { "evidenceId": "evidence:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "sourceRevision": "fixture-rev-1", "text": "tests/ParserTests.cs: empty input", "fileLocationKey": "repo:tests/ParserTests.cs", "symbolLocationKey": "symbol:ParserTests.Empty" },
+    { "evidenceId": "evidence:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "sourceRevision": "fixture-rev-1", "text": "docs/café.md: résumé", "fileLocationKey": "repo:docs/café.md", "symbolLocationKey": null }
+  ]
+}

@@ -22,6 +22,8 @@
     <None Include="$(SdevEngProducerRoot)/schemas/tokenizer-manifest.schema.json" Link="Schemas/tokenizer-manifest.schema.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="$(SdevEngProducerRoot)/schemas/chat-template-manifest.schema.json" Link="Schemas/chat-template-manifest.schema.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="$(SdevEngProducerRoot)/schemas/prompt-manifest.schema.json" Link="Schemas/prompt-manifest.schema.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(SdevEngProducerRoot)/schemas/request-variant-token-measurement.schema.json" Link="Schemas/request-variant-token-measurement.schema.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(SdevEngProducerRoot)/schemas/evidence-efficiency-measurement.schema.json" Link="Schemas/evidence-efficiency-measurement.schema.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Fixtures/**/*.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../../schemas/**/*.json" Link="Schemas/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

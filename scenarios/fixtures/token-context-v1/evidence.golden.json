@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 2,
+  "kind": "evidence-efficiency-measurement",
+  "candidates": [
+    {
+      "evidenceId": "evidence:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sourceRevision": "fixture-rev-1",
+      "text": "src/Parser.cs: parse token",
+      "fileLocationKey": "repo:src/Parser.cs",
+      "symbolLocationKey": "symbol:Parser.Parse",
+      "utf8Bytes": 26,
+      "tokens": 26
+    },
+    {
+      "evidenceId": "evidence:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "sourceRevision": "fixture-rev-1",
+      "text": "tests/ParserTests.cs: empty input",
+      "fileLocationKey": "repo:tests/ParserTests.cs",
+      "symbolLocationKey": "symbol:ParserTests.Empty",
+      "utf8Bytes": 33,
+      "tokens": 33
+    },
+    {
+      "evidenceId": "evidence:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "sourceRevision": "fixture-rev-1",
+      "text": "docs/café.md: résumé",
+      "fileLocationKey": "repo:docs/café.md",
+      "symbolLocationKey": null,
+      "utf8Bytes": 23,
+      "tokens": 23
+    }
+  ],
+  "selected": [
+    {
+      "evidenceId": "evidence:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sourceRevision": "fixture-rev-1",
+      "text": "src/Parser.cs: parse token",
+      "fileLocationKey": "repo:src/Parser.cs",
+      "symbolLocationKey": "symbol:Parser.Parse",
+      "utf8Bytes": 26,
+      "tokens": 26
+    },
+    {
+      "evidenceId": "evidence:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "sourceRevision": "fixture-rev-1",
+      "text": "docs/café.md: résumé",
+      "fileLocationKey": "repo:docs/café.md",
+      "symbolLocationKey": null,
+      "utf8Bytes": 23,
+      "tokens": 23
+    }
+  ],
+  "candidateFileCount": 3,
+  "selectedFileCount": 2,
+  "candidateSymbolCount": 2,
+  "selectedSymbolCount": 1,
+  "candidateBytes": 82,
+  "candidateTokens": 82,
+  "selectedBytes": 49,
+  "selectedTokens": 49,
+  "selectionRatio": 0.5975609756097560975609756098,
+  "selectionRatioUnavailableReason": null,
+  "role": "coder",
+  "roleInputBudgetTokens": 12,
+  "renderedInputTokens": 9,
+  "utilizationPercent": 75.0,
+  "utilizationUnavailableReason": null,
+  "truncationEvents": [],
+  "overflowEvents": []
+}

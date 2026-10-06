@@ -67,6 +67,31 @@ public sealed class TokenContextFixtureEvaluatorTests
         finally { Directory.Delete(root, true); }
     }
 
+    [Fact]
+    public async Task CondensationAndEvidenceSelectionMatchPinnedGoldensThroughCliAndSchemas()
+    {
+        var results = CondensationEvidenceFixtureEvaluator.Evaluate(Root);
+        results.Condensation.Validate();
+        results.Evidence.Validate();
+        var checks = new (object Result, string SchemaName)[]
+        {
+            (results.Condensation, "request-variant-token-measurement.schema.json"),
+            (results.Evidence, "evidence-efficiency-measurement.schema.json")
+        };
+        foreach (var (result, schemaName) in checks)
+        {
+            var schema = JsonSchema.FromFile(Path.Combine(AppContext.BaseDirectory, "Schemas", schemaName));
+            Assert.True(schema.Evaluate(JsonSerializer.SerializeToNode(result, new JsonSerializerOptions(JsonSerializerDefaults.Web))).IsValid);
+        }
+
+        using var output = new StringWriter();
+        using var error = new StringWriter();
+        Assert.Equal(0, await MetricsCli.RunAsync(["evaluate-condensation-evidence-fixtures", Root], output, error));
+        Assert.Equal("", error.ToString());
+        var replay = JsonNode.Parse(output.ToString())!;
+        Assert.Equal(JsonNode.Parse(JsonSerializer.Serialize(results, new JsonSerializerOptions(JsonSerializerDefaults.Web))), replay);
+    }
+
     private sealed class ThrowingExecutor : IEvaluationExecutor
     {
         public int Calls { get; private set; }

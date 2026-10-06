@@ -1,0 +1,7 @@
+{
+  "originalText": "Fix café bug in parser",
+  "normalizedText": "Fix the café bug in parser.",
+  "condensedText": "Fix café parser bug",
+  "requiredFacts": ["bug", "component"],
+  "requiredFactMappings": { "bug": "bug", "component": "parser" }
+}
