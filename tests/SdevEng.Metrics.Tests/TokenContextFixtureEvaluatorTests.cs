@@ -56,6 +56,11 @@ public sealed class TokenContextFixtureEvaluatorTests
             File.WriteAllText(path, golden.ToJsonString());
             Assert.Throws<InvalidDataException>(() => TokenContextFixtureEvaluator.Evaluate(root, new ThrowingExecutor()));
             File.Copy(Path.Combine(Root, "empty.golden.json"), path, true);
+            golden = JsonNode.Parse(File.ReadAllText(path))!;
+            golden["attribution"]!["components"]![0]!["tokens"] = 0;
+            File.WriteAllText(path, golden.ToJsonString());
+            Assert.Throws<InvalidDataException>(() => TokenContextFixtureEvaluator.Evaluate(root, new ThrowingExecutor()));
+            File.Copy(Path.Combine(Root, "empty.golden.json"), path, true);
             File.WriteAllBytes(Path.Combine(root, "vocab.bin"), [0]);
             Assert.Throws<InvalidDataException>(() => TokenContextFixtureEvaluator.Evaluate(root, new ThrowingExecutor()));
         }

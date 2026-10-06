@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using SdevEng;
 using SdevEng.Infrastructure;
 
@@ -37,7 +38,8 @@ public static class TokenContextFixtureEvaluator
             var result = counter.CountAttributed(template.Id, template.Revision, template.Checksum, prompt, text);
             result.Validate();
             if (!rendering.Available || rendering.Text != golden.RenderedInput || result.MeasurementKind != "exact" ||
-                result.Tokens != golden.Tokens || result.Utf8Bytes != golden.Utf8Bytes || result.RenderedInputDigest != golden.RenderedInputDigest)
+                result.Tokens != golden.Tokens || result.Utf8Bytes != golden.Utf8Bytes || result.RenderedInputDigest != golden.RenderedInputDigest ||
+                result.Attribution is null || !JsonNode.DeepEquals(JsonSerializer.SerializeToNode(result.Attribution, Json), golden.Attribution))
                 throw new InvalidDataException($"Token/context golden mismatch: {name}");
             results.Add(result);
         }
@@ -47,7 +49,7 @@ public static class TokenContextFixtureEvaluator
     private static T Read<T>(string root, string name) => JsonSerializer.Deserialize<T>(File.ReadAllText(Path.Combine(root, name)), Json)
         ?? throw new JsonException("Empty fixture.");
 
-    private sealed record Golden(string RenderedInput, long Utf8Bytes, long Tokens, string RenderedInputDigest);
+    private sealed record Golden(string RenderedInput, long Utf8Bytes, long Tokens, string RenderedInputDigest, JsonNode Attribution);
 
     public sealed class RejectInferenceExecutor : IEvaluationExecutor
     {

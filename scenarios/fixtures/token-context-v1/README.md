@@ -22,6 +22,11 @@ Each UTF-8 byte costs one fixture token except the three `</m>` + newline + `<m>
 boundaries: each eight-byte sequence costs one token, saving seven each.
 Thus total tokens = rendered UTF-8 bytes - 21. This includes empty bodies,
 multibyte Unicode (including a combining mark), and tokens crossing component
-wrapping boundaries. Rendered digests are SHA-256 of the literal UTF-8 strings.
+wrapping boundaries. Each attribution golden is calculated from the same literal
+template and component order: for every cumulative UTF-16 span end, count the
+UTF-8 bytes in that rendered prefix minus seven per complete `</m>` + newline +
+`<m>` token, then store the difference from the previous prefix count. This
+independently specifies every prefix and signed component delta, including the
+template overhead. Rendered digests are SHA-256 of the literal UTF-8 strings.
 Attribution must reconcile to the final rendered total. Later workflow consumers
 and production tokenizer qualification remain deferred.
